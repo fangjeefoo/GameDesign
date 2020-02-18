@@ -12,7 +12,7 @@ function create() {
     title.anchor.set(0.5, 0.5);
 
     createButton(game.world.centerX, game.world.centerY, "New Game", function () {
-        //game.state.start();
+        game.state.start("stage1");
     });
 
     createButton(game.world.centerX, game.world.centerY + 100, "Continue", function () {
