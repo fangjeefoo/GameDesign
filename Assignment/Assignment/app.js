@@ -1,15 +1,21 @@
 var game = new Phaser.Game("100", "100", Phaser.AUTO, "content", { preload: preload, create: create });
+var bg;
 function preload() {
     game.load.image('button', 'resource/button.png');
     game.load.image('messageBox', 'resource/messageBox.png');
     game.load.image('closeButton', 'resource/closeButton.png');
+    game.load.image('background', 'resource/background.png');
 }
 function create() {
-    var style = { font: "100px Arial", fill: "#FFFFFF", align: "center" };
+    bg = game.add.sprite(0, 0, 'background');
+    var style = { font: "100px Arial", fill: "#000000", align: "center" };
     var title = game.add.text(game.world.centerX, 100, "Journey", style);
     title.anchor.set(0.5, 0.5);
+    bg.width = game.width;
+    bg.height = game.height;
     createButton(game.world.centerX, game.world.centerY, "New Game", function () {
-        game.state.start("stage1");
+        console.log("This function is working");
+        game.state.start("Stage1");
     });
     createButton(game.world.centerX, game.world.centerY + 100, "Continue", function () {
         //game.state.start();
@@ -61,7 +67,7 @@ function createButton(positionX, positionY, text, callback) {
     var style = { font: "30px Arial", fill: "#000000", align: "center" };
     var button_text = game.add.text(button.x, button.y, text, style);
     button.anchor.set(0.5, 0.5);
-    button.width = 100;
+    button.width = 200;
     button.height = 100;
     button_text.anchor.set(0.5, 0.5);
 }

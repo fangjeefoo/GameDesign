@@ -26,6 +26,7 @@
     <Content Include="index.html" />
     <Content Include="phaser.js" />
     <Content Include="phaser.min.js" />
+    <Content Include="Stage1.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
