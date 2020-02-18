@@ -1,11 +1,14 @@
 ﻿var game = new Phaser.Game("100", "100", Phaser.AUTO, "content", { preload: preload, create: create });
 
 function preload() {
-    game.load.image('button', 'button.png');
+    game.load.image('button', 'resource/button.png');
 }
 
 function create() {
-    createButton(game.world.centerX, game.world.centerY, "Start", function () {
+    var style = { font: "100px Arial", fill: "#FFFFFF", align: "center" };
+    var title = game.add.text(game.world.centerX, 100, "Journey", style);
+
+    createButton(game.world.centerX, game.world.centerY, "New Game", function () {
         //game.state.start();
     });
 
@@ -13,12 +16,16 @@ function create() {
         //game.state.start();
     });
 
-    createButton(game.world.centerX, game.world.centerY + 200, "Setting", function () {
+    createButton(game.world.centerX, game.world.centerY + 200, "How To Play", function () {
         //game.state.start();
     });
 
-    createButton(game.world.centerX, game.world.centerY + 300, "Quit", function () {
+    createButton(game.world.centerX, game.world.centerY + 200, "Options", function () {
         //game.state.start();
+    });
+
+    createButton(game.world.centerX, game.world.centerY + 300, "Exit", function () {
+       //exit the game
     });
 }
 
