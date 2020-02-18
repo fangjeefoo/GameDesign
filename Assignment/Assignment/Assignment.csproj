@@ -24,10 +24,15 @@
   <ItemGroup>
     <Content Include="app.css" />
     <Content Include="index.html" />
+    <Content Include="phaser.js" />
+    <Content Include="phaser.min.js" />
     <Content Include="web.config" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />
+    <TypeScriptCompile Include="p2.d.ts" />
+    <TypeScriptCompile Include="phaser.d.ts" />
+    <TypeScriptCompile Include="pixi.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <None Include="web.Debug.config">
