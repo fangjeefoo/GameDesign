@@ -32,12 +32,16 @@ function create() {
         var msgBox = game.add.group();
         var box = game.add.sprite(0, 0, "messageBox");
         var closeButton = game.add.sprite(0, 0, "closeButton");
-        var instruction1 = game.add.text(msgBox.x + 20, msgBox.y + 10, "Instruction1", style);
-        var instruction2 = game.add.text(msgBox.x + 20, msgBox.y + 30, "Instruction2", style);
-        var instruction3 = game.add.text(msgBox.x + 20, msgBox.y + 50, "Instruction3", style);
-        var instruction4 = game.add.text(msgBox.x + 20, msgBox.y + 70, "Instruction4", style);
-        var instruction5 = game.add.text(msgBox.x + 20, msgBox.y + 90, "Instruction5", style);
-        var instruction6 = game.add.text(msgBox.x + 20, msgBox.y + 110, "Instruction6", style);
+        var instruction = game.add.text(0, msgBox.y + 10, "Control", style);
+        var instruction1 = game.add.text(msgBox.x + 20, msgBox.y + 40, "Arrow Up - Jump", style);
+        var instruction2 = game.add.text(msgBox.x + 20, msgBox.y + 70, "Arrow Down - Duck", style);
+        var instruction3 = game.add.text(msgBox.x + 20, msgBox.y + 100, "Arrow Right - Move right", style);
+        var instruction4 = game.add.text(msgBox.x + 20, msgBox.y + 130, "Arrow Left - Move left", style);
+        var instruction5 = game.add.text(msgBox.x + 20, msgBox.y + 160, "ESC - Menu", style);
+        var instruction6 = game.add.text(msgBox.x + 20, msgBox.y + 190, "C - Interact", style);
+        var instruction7 = game.add.text(msgBox.x + 20, msgBox.y + 210, "X - Push", style);
+        var instruction8 = game.add.text(msgBox.x + 20, msgBox.y + 240, "Z - Pull", style);
+        var instruction9 = game.add.text(msgBox.x + 20, msgBox.y + 270, "P - Pause / Unpause", style);
 
         box.width = 500;
         box.height = 500;
@@ -45,19 +49,23 @@ function create() {
         closeButton.height = 40;
 
         msgBox.add(box);
+        msgBox.add(instruction);
         msgBox.add(instruction1);
         msgBox.add(instruction2);
         msgBox.add(instruction3);
         msgBox.add(instruction4);
         msgBox.add(instruction5);
         msgBox.add(instruction6);
+        msgBox.add(instruction7);
+        msgBox.add(instruction8);
+        msgBox.add(instruction9);
         msgBox.add(closeButton);
 
         closeButton.x = msgBox.x + 445;
         closeButton.y = msgBox.y + 15;
         msgBox.x = game.width / 2 - msgBox.width / 2;
         msgBox.y = game.height / 2 - msgBox.height / 2;
-
+        instruction.x = msgBox.width / 2 - instruction.width / 2;
 
         closeButton.inputEnabled = true;
         closeButton.events.onInputDown.add(function () {
@@ -85,7 +93,3 @@ function createButton(positionX, positionY, text, callback) {
     button.height = 100;
     button_text.anchor.set(0.5, 0.5);
 }
-
-
-
-

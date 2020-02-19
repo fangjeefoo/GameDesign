@@ -38,6 +38,7 @@
     <TypeScriptCompile Include="pixi.d.ts" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Stage1.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
