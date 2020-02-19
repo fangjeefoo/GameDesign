@@ -109,5 +109,13 @@ function createButton(positionX, positionY, text, callback) {
     button.height = 100;
     button_text.anchor.set(0.5, 0.5);
 
+    button.onInputOver.add(function () {
+        button_text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+    }, this);
+
+    button.onInputOut.add(function () {
+        button_text.setShadow();
+    }, this);
+
     return button;
 }
