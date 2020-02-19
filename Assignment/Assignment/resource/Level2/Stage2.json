@@ -1,4 +1,12 @@
-{ "compressionlevel":-1,
+{ "compressionlevel":0,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"Stage2.json"
+        }
+    },
  "height":24,
  "infinite":false,
  "layers":[
@@ -233,7 +241,7 @@
                  "visible":true,
                  "width":16,
                  "x":716,
-                 "y":123.333333333333
+                 "y":123.333
                 }, 
                 {
                  "gid":32,
@@ -574,7 +582,7 @@
  "tilesets":[
         {
          "firstgid":1,
-         "source":"..\/Assets.tsx"
+         "source":"Assets.tsx"
         }],
  "tilewidth":16,
  "type":"map",
