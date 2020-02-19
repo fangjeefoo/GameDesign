@@ -23,8 +23,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app.css" />
+    <Content Include="Game.js" />
     <Content Include="index.html" />
-    <Content Include="MainMenu.js" />
+    <Content Include="Menu.js" />
     <Content Include="phaser.js" />
     <Content Include="phaser.min.js" />
     <Content Include="Stage1.js" />

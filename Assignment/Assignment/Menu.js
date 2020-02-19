@@ -1,4 +1,4 @@
-﻿var MainMenu = {preload: preload, create: create, createButton: createButton};
+﻿var menu = {preload: preload, create: create};
 
 function preload() {
     game.load.image('button', 'resource/button.png');
@@ -17,12 +17,11 @@ function create() {
     bg.height = game.height;
 
     createButton(game.world.centerX, game.world.centerY, "New Game", function () {
-        console.log("This function is working");
         game.state.start("Stage1");
     });
 
     createButton(game.world.centerX, game.world.centerY + 100, "Continue", function () {
-            //game.state.start();
+        //game.state.start();
     });
 
     createButton(game.world.centerX, game.world.centerY + 200, "How To Play", function () {
@@ -69,11 +68,11 @@ function create() {
     });
 
     createButton(game.world.centerX, game.world.centerY + 300, "Options", function () {
-            //game.state.start();
+        //game.state.start();
     });
 
     createButton(game.world.centerX, game.world.centerY + 300, "Exit", function () {
-            //exit the game
+       //exit the game
     });
 }
 
@@ -86,6 +85,7 @@ function createButton(positionX, positionY, text, callback) {
     button.height = 100;
     button_text.anchor.set(0.5, 0.5);
 }
+
 
 
 
