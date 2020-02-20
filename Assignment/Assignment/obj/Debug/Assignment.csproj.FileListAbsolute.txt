@@ -3,3 +3,4 @@ C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\
 C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment\Assignment\bin\Assignment.pdb
 C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment\Assignment\obj\Debug\Assignment.dll
 C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment\Assignment\obj\Debug\Assignment.pdb
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment\Assignment\obj\Debug\Assignment.csprojResolveAssemblyReference.cache
