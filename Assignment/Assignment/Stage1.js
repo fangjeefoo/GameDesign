@@ -25,15 +25,20 @@ function create() {
     game.stage.backgroundColor = "#34202B";
     map = game.add.tilemap("level1");
     map.addTilesetImage('Assets');
+
+    map.setCollisionByExclusion([3, 5, 17, 73, 143]);
+
     baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
-    //baseLayer2 = map.createLayer('StartEnd');
-    //baseLayer2.resizeWorld();
-   // trap = map.createLayer('Trap');
-   // trap.resizeWorld();
+
+    baseLayer2 = map.createLayer('StartEnd');
+    baseLayer2.resizeWorld();
+
+    trap = map.createLayer('Trap');
+    trap.resizeWorld();
 
     game.physics.arcade.gravity.y = 500;
-    player = game.add.sprite(30, 200, 'hero');
+    player = game.add.sprite(30, 330, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.1;
     player.body.collideWorldBounds = true;
@@ -42,14 +47,17 @@ function create() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
     game.camera.follow(player);
+
     cursors = game.input.keyboard.createCursorKeys();
 }
 
 function update() {
-    game.physics.arcade.collide(player, baseLayer);
-   // game.physics.arcade.collide(player, baseLayer2);
-   // game.physics.arcade.collide(player, trap);
+    //game.physics.arcade.collide(player, baseLayer);
+    //game.physics.arcade.collide(player, baseLayer2);
+    //game.physics.arcade.collide(player, trap);
+
     player.body.velocity.x = 0;
+
     if (cursors.left.isDown) {
         player.body.velocity.x = -150;
         if (facing != 'left') {
