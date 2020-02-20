@@ -14,7 +14,7 @@ var jumpButton;
 function preload() {
     game.load.tilemap('map', 'resource/Level1/Stage1Proto.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level1/Assets.png');
-    game.load.spritesheet('hero', 'resource/dude.png', 32, 40);
+    game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
     game.load.spritesheet('mob', 'resource/droid.png', 32, 32);
     game.load.image('star', 'resource/star.png');
 }
