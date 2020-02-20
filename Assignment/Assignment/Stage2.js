@@ -10,8 +10,9 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = "#34202B";
-    map = game.add.tilemap('map');
+    map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
-    layer = map.createLayer('BaseLayer');
+    console.log(map.layer);
+    layer = map.createLayer('BlockedLayer');
     layer.resizeWorld();
 }

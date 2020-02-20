@@ -12,9 +12,9 @@ var jumpButton;
 function preload() {
     game.load.tilemap('level1', 'resource/Level1/Stage1Proto.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level1/Assets.png');
-    game.load.spritesheet('hero', 'resource/Level1/dude.png', 32, 48);
-    game.load.spritesheet('mob', 'resource/Level1/droid.png', 32, 32);
-    game.load.image('star', 'resource/Level1/star.png');
+    game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
+    game.load.spritesheet('mob', 'resource/droid.png', 32, 32);
+    game.load.image('star', 'resource/star.png');
 }
 
 function create() {
@@ -23,6 +23,10 @@ function create() {
     map = game.add.tilemap("level1");
     map.addTilesetImage('Assets');
     layer = map.createLayer('BaseLayer');
+    layer.resizeWorld();
+    layer = map.createLayer('BaseLayer2');
+    layer.resizeWorld();
+    layer = map.createLayer('Trap');
     layer.resizeWorld();
 
     game.physics.arcade.gravity.y = 500;
@@ -39,4 +43,39 @@ function create() {
 
     cursors.game.input.keyboard.createCursorKeys();
     jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+}
+
+function update() {
+    game.physics.arcade.collide(player, layer);
+    player.body.velocity.x = 0;
+    if (cursors.left.isDown) {
+        player.body.velocity.x = -150;
+        if (facing != 'left') {
+            player.animations.play('left');
+            facing = 'left';
+        }
+    }
+    else if (cursors.right.isDown) {
+        player.body.velocity.x = 150;
+        if (facing != 'right') {
+            player.animations.play('right');
+            facing = 'right';
+        }
+    }
+    else {
+        if (facing != 'idle') {
+            player.animations.stop();
+            if (facing == 'left') {
+                player.frame = 0;
+            }
+            else {
+                player.frame = 5;
+            }
+            facing = 'idle';
+        }
+    }
+    if (jumpButton.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
+        player.body.velocity.y = -250;
+        jumpTimer = game.time.now + 750;
+    }
 }
