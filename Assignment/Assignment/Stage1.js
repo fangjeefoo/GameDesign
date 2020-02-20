@@ -11,11 +11,10 @@ var jumpTimer = 0;
 var cursors;
 var jumpButton;
 
-
 function preload() {
-    game.load.tilemap('level1', 'resource/Level1/Stage1Proto.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map', 'resource/Level1/Stage1Proto.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level1/Assets.png');
-    game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
+    game.load.spritesheet('hero', 'resource/dude.png', 32, 40);
     game.load.spritesheet('mob', 'resource/droid.png', 32, 32);
     game.load.image('star', 'resource/star.png');
 }
@@ -23,10 +22,10 @@ function preload() {
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = "#34202B";
-    map = game.add.tilemap("level1");
+    map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
 
-    map.setCollisionByExclusion([3, 5, 17, 73, 143]);
+    map.setCollisionByExclusion([3, 5, 17, 71, 2, 1, 73, 143]);
 
     baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
@@ -38,7 +37,7 @@ function create() {
     trap.resizeWorld();
 
     game.physics.arcade.gravity.y = 500;
-    player = game.add.sprite(30, 330, 'hero');
+    player = game.add.sprite(50, 330, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.bounce.y = 0.1;
     player.body.collideWorldBounds = true;
@@ -52,9 +51,9 @@ function create() {
 }
 
 function update() {
-    //game.physics.arcade.collide(player, baseLayer);
-    //game.physics.arcade.collide(player, baseLayer2);
-    //game.physics.arcade.collide(player, trap);
+    game.physics.arcade.collide(player, baseLayer);
+    game.physics.arcade.collide(player, baseLayer2);
+    game.physics.arcade.collide(player, trap);
 
     player.body.velocity.x = 0;
 
