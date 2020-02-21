@@ -13,7 +13,6 @@ var player;
 var facing = 'right';
 var jumpTimer = 0;
 var cursors;
-var style = { font: "25px Arial", fill: "#000000", align: "left" };
 
 function preload() {
     game.load.tilemap('map', 'resource/Level1/Stage1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -27,6 +26,7 @@ function preload() {
 }
 
 function create() {
+    var style = { font: "25px Arial", fill: "#000000", align: "left" };
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.add.text(0, 0, 'Score: ' + score, style);
     game.stage.backgroundColor = "#34202B";
@@ -110,20 +110,17 @@ function update() {
 }
 
 function collectCoin(player, coin) {
-    console.log('coin here');
     coin.kill();
     score++;
 }
 
 function hurt(player, trap) {
-    console.log('trap here');
     life--;
    // if (life == 0)
         //game.state.start("Lose");
 }
 
 function collectChest(player, chest) {
-    console.log('chest here');
     chest.kill();
     score = score + 10;
 }

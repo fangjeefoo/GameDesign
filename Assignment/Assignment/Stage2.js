@@ -13,7 +13,6 @@ var player;
 var facing = 'right';
 var jumpTimer = 0;
 var cursors;
-var style = { font: "25px Arial", fill: "#000000", align: "left" };
 
 function preload() {
     game.load.tilemap('map', 'resource/Level2/Stage2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -27,6 +26,7 @@ function preload() {
 }
 
 function create() {
+    var style = { font: "25px Arial", fill: "#000000", align: "left" };
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.add.text(0, 0, 'Score: ' + score, style);
     game.stage.backgroundColor = "#34202B";
