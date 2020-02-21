@@ -4,6 +4,7 @@ var map;
 var tileset;
 var baseLayer;
 var trap;
+var objectLayer;
 var player;
 var facing = 'right';
 var jumpTimer = 0;
@@ -31,6 +32,8 @@ function create() {
 
     trap = map.createLayer('Traps');
     trap.resizeWorld();
+
+    objectLayer = map.getObjectLayer(['Object']);
 
     game.physics.arcade.gravity.y = 500;
     player = game.add.sprite(30, 0, 'hero');

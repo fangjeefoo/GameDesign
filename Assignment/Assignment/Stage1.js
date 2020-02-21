@@ -3,8 +3,8 @@
 var map;
 var tileset;
 var baseLayer;
-var baseLayer2;
 var trap;
+var coins;
 var player;
 var facing = 'right';
 var jumpTimer = 0;
@@ -12,33 +12,35 @@ var cursors;
 var jumpButton;
 
 function preload() {
-    game.load.tilemap('map', 'resource/Level1/Stage1Proto.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.tilemap('map', 'resource/Level1/Stage1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level1/Assets.png');
     game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
     game.load.spritesheet('mob', 'resource/droid.png', 32, 32);
+    game.load.image('coins', 'resource/Gold_21.png', 16, 16);
     game.load.image('star', 'resource/star.png');
 }
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = "#34202B";
+
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
-
-    map.setCollisionByExclusion([3, 5, 17, 71, 2, 1, 73, 143]);
+    map.setCollisionByExclusion([1, 2]);
 
     baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
 
-    baseLayer2 = map.createLayer('StartEnd');
-    baseLayer2.resizeWorld();
-
-    trap = map.createLayer('Trap');
+    trap = map.createLayer('Traps');
     trap.resizeWorld();
 
-    game.physics.arcade.gravity.y = 500;
+    coins = game.add.group();
+    coins.enableBody = true;
+    map.createFromObjects('Coins', 16, 'coins', 0, true, false, coins);
+    
     player = game.add.sprite(50, 330, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
+    player.body.gravity.y = 500;
     player.body.bounce.y = 0.1;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
@@ -52,8 +54,9 @@ function create() {
 
 function update() {
     game.physics.arcade.collide(player, baseLayer);
-    game.physics.arcade.collide(player, baseLayer2);
-    game.physics.arcade.collide(player, trap);
+    game.physics.arcade.collide(coins, baseLayer);
+    game.physics.arcade.overlap(player, trap, hurt, null, this);
+    game.physics.arcade.overlap(player, coins, collectCoin, null, this);
 
     player.body.velocity.x = 0;
 
@@ -87,4 +90,12 @@ function update() {
             facing = 'idle';
         }
     }
+}
+
+function collectCoin(player, coin) {
+    coin.kill();
+}
+
+function hurt(player, trap) {
+
 }
