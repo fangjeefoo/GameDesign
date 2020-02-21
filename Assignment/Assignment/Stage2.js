@@ -11,11 +11,14 @@ var score;
 var life;
 var player;
 var facing = 'right';
-var jumpTimer = 0;
 var cursors;
 var style;
 var scoreText;
 var lifeText;
+var onTheGround;
+var jumping;
+var hard = true;
+var jump = 0;
 
 function preload() {
     game.load.tilemap('map', 'resource/Level2/Stage2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -35,6 +38,7 @@ function create() {
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
     map.setCollisionByExclusion([1, 2]);
+    map.setCollisionBetween(1, 1000, true, 'Traps');
 
     baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
@@ -80,11 +84,11 @@ function update() {
     lifeText.setText('Life: ' + life);
     
     game.physics.arcade.collide(player, baseLayer);
+    game.physics.arcade.collide(player, trap, hurt, null, this);
     game.physics.arcade.collide(coins, baseLayer);
-    game.physics.arcade.overlap(player, trap, hurt, null, this);
-    game.physics.arcade.overlap(player, coins, collectCoin, null, this);
-    game.physics.arcade.overlap(player, chest, collectChest, null, this);
-    game.physics.arcade.overlap(player, door, win, null, this);
+    game.physics.arcade.collide(player, coins, collectCoin, null, this);
+    game.physics.arcade.collide(player, chest, collectChest, null, this);
+    game.physics.arcade.collide(player, door, win, null, this);
 
     player.body.velocity.x = 0;
 
@@ -102,10 +106,6 @@ function update() {
             facing = 'right';
         }
     }
-    else if (cursors.up.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
-        player.body.velocity.y = -270;
-        jumpTimer = game.time.now + 750;
-    }
     else {
         if (facing != 'idle') {
             player.animations.stop();
@@ -118,6 +118,24 @@ function update() {
             facing = 'idle';
         }
     }
+
+    onTheGound = player.body.onFloor();
+
+    if (onTheGound) {
+        jump = 2;
+        jumping = false;
+    }
+
+    if (jump > 0 && cursors.up.isDown) {
+        player.body.velocity.y = -190;
+        jumping = true;
+        cursors.up.reset(hard);
+    }
+
+    if (jumping && !cursors.up.isDown) {
+        jump--;
+        jumping = false;
+    }
 }
 
 function collectCoin(player, coin) {
@@ -127,8 +145,8 @@ function collectCoin(player, coin) {
 
 function hurt(player, trap) {
     life--;
-    if (life == 0)
-        game.state.start("Lose");
+    //if (life == 0)
+       // game.state.start("Lose");
 }
 
 function collectChest(player, chest) {

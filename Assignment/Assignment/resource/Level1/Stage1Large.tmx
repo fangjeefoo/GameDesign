@@ -3,7 +3,9 @@
  <editorsettings>
   <export target="Level1/Stage1Large.json" format="json"/>
  </editorsettings>
- <tileset firstgid="1" source="Assets.tsx"/>
+ <tileset firstgid="1" name="Assets" tilewidth="16" tileheight="16" tilecount="322" columns="23">
+  <image source="Assets.png" width="368" height="224"/>
+ </tileset>
  <layer id="1" name="BaseLayer" width="60" height="38">
   <data encoding="csv">
 3221225498,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,72,139,150,117,1073741917,119,
