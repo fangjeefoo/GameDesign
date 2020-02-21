@@ -32,6 +32,7 @@
     <Content Include="Stage1.js" />
     <Content Include="Stage2.js" />
     <Content Include="web.config" />
+    <Content Include="Win.js" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="app.ts" />

@@ -20,7 +20,7 @@ function preload() {
     game.load.image('Assets', 'resource/Level2/Assets.png');
     game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
     game.load.spritesheet('mob', 'resource/droid.png', 32, 32);
-    game.load.spritesheet('chest', 'resource/chest.png', 18, 24);
+    game.load.image('chest', 'resource/chest.png');
     game.load.image('door', 'resource/door.png');
     game.load.image('coins', 'resource/Gold_21.png');
     game.load.image('star', 'resource/star.png');
@@ -47,11 +47,11 @@ function create() {
 
     chest = game.add.group();
     chest.enableBody = true;
-    map.createFromObjects('Chest', [85, 131], 'chest', 0, true, false, chest);
-    //chest.setAll('animations.add', 'animations', 'normal', [0]);
-    //chest.setAll('animations.add', 'animations', 'open', [1, 2, 3]);
+    map.createFromObjects('Chest', 85, 'chest', 0, true, false, chest);
 
-    map.createFromObjects('ExitDoor', [1073741879, 32, 1073741856], 'door', 0, true, false, door);
+    door = game.add.group();
+    door.enableBody = true;
+    map.createFromObjects('ExitDoor', 1073741856, 'door', 0, true, false, door);
 
     player = game.add.sprite(50, 330, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -92,7 +92,7 @@ function update() {
         }
     }
     else if (cursors.up.isDown && player.body.onFloor() && game.time.now > jumpTimer) {
-        player.body.velocity.y = -250;
+        player.body.velocity.y = -270;
         jumpTimer = game.time.now + 750;
     }
     else {
@@ -116,7 +116,8 @@ function collectCoin(player, coin) {
 
 function hurt(player, trap) {
     life--;
-
+    if (life == 0)
+        game.state.start("Lose");
 }
 
 function collectChest(player, chest) {
@@ -125,5 +126,5 @@ function collectChest(player, chest) {
 }
 
 function win() {
-    //game.state.start('Stage2');
+    game.state.start('Win');
 }

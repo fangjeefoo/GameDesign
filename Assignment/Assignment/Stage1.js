@@ -51,9 +51,9 @@ function create() {
 
     door = game.add.group();
     door.enableBody = true;
-    map.createFromObjects('ExitDoor', [1073741879, 32, 1073741856], 'door', 0, true, false, door);
+    map.createFromObjects('ExitDoor', 1073741856, 'door', 0, true, false, door);
 
-    player = game.add.sprite(50, 330, 'hero');
+    player = game.add.sprite(50, 500, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.gravity.y = 500;
     player.body.bounce.y = 0.1;
@@ -110,17 +110,20 @@ function update() {
 }
 
 function collectCoin(player, coin) {
+    console.log('coin here');
     coin.kill();
     score++;
 }
 
 function hurt(player, trap) {
+    console.log('trap here');
     life--;
-    if (life == 0)
-        game.state.start("Lose");
+   // if (life == 0)
+        //game.state.start("Lose");
 }
 
 function collectChest(player, chest) {
+    console.log('chest here');
     chest.kill();
     score = score + 10;
 }
