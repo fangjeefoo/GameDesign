@@ -13,6 +13,9 @@ var player;
 var facing = 'right';
 var jumpTimer = 0;
 var cursors;
+var style;
+var scoreText;
+var lifeText;
 
 function preload() {
     game.load.tilemap('map', 'resource/Level1/Stage1.json', null, Phaser.Tilemap.TILED_JSON);
@@ -26,9 +29,7 @@ function preload() {
 }
 
 function create() {
-    var style = { font: "25px Arial", fill: "#000000", align: "left" };
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    game.add.text(0, 0, 'Score: ' + score, style);
     game.stage.backgroundColor = "#34202B";
 
     map = game.add.tilemap("map");
@@ -53,6 +54,13 @@ function create() {
     door.enableBody = true;
     map.createFromObjects('ExitDoor', 1073741856, 'door', 0, true, false, door);
 
+    style = { font: "15px Arial", fill: "#FFFFFF", align: "left" };
+    scoreText = game.add.text(0, 0, 'Score: ' + score, style);
+    scoreText.fixedToCamera = true;
+
+    lifeText = game.add.text(0, 20, 'Life: ' + life, style);
+    lifeText.fixedToCamera = true;
+
     player = game.add.sprite(50, 500, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.gravity.y = 500;
@@ -68,6 +76,9 @@ function create() {
 }
 
 function update() {
+    scoreText.setText('Score: ' + score);
+    lifeText.setText('Life: ' + life);
+
     game.physics.arcade.collide(player, baseLayer);
     game.physics.arcade.collide(coins, baseLayer);
     game.physics.arcade.overlap(player, trap, hurt, null, this);

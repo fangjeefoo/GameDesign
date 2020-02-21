@@ -1,6 +1,5 @@
 ﻿var lose = { create: create }
 
-
 function create() {
     var style = { font: "25px Arial", fill: "#FFFFFF", align: "left" };
     var text = game.add.text(game.world.centerX, game.world.centerY, "You Lose!", style);
