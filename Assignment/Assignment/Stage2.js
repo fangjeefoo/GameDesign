@@ -4,40 +4,58 @@ var map;
 var tileset;
 var baseLayer;
 var trap;
-var objectLayer;
+var coins;
+var chest;
+var door;
+var score = 0;
+var life = 3;
 var player;
 var facing = 'right';
 var jumpTimer = 0;
 var cursors;
-var jumpButton;
+var style = { font: "25px Arial", fill: "#000000", align: "left" };
 
 function preload() {
     game.load.tilemap('map', 'resource/Level2/Stage2.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level2/Assets.png');
     game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
     game.load.spritesheet('mob', 'resource/droid.png', 32, 32);
+    game.load.spritesheet('chest', 'resource/chest.png', 18, 24);
+    game.load.image('door', 'resource/door.png');
+    game.load.image('coins', 'resource/Gold_21.png');
     game.load.image('star', 'resource/star.png');
 }
 
 function create() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
+    game.add.text(0, 0, 'Score: ' + score, style);
     game.stage.backgroundColor = "#34202B";
+
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
+    map.setCollisionByExclusion([1, 2]);
 
-    map.setCollisionByExclusion([2, 4, 3, 1, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51]); //
-
-    baseLayer = map.createLayer('BlockedLayer');
+    baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
 
     trap = map.createLayer('Traps');
     trap.resizeWorld();
 
-    objectLayer = map.getObjectLayer(['Object']);
+    coins = game.add.group();
+    coins.enableBody = true;
+    map.createFromObjects('Coins', 16, 'coins', 0, true, false, coins);
 
-    game.physics.arcade.gravity.y = 500;
-    player = game.add.sprite(30, 0, 'hero');
+    chest = game.add.group();
+    chest.enableBody = true;
+    map.createFromObjects('Chest', [85, 131], 'chest', 0, true, false, chest);
+    //chest.setAll('animations.add', 'animations', 'normal', [0]);
+    //chest.setAll('animations.add', 'animations', 'open', [1, 2, 3]);
+
+    map.createFromObjects('ExitDoor', [1073741879, 32, 1073741856], 'door', 0, true, false, door);
+
+    player = game.add.sprite(50, 330, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
+    player.body.gravity.y = 500;
     player.body.bounce.y = 0.1;
     player.body.collideWorldBounds = true;
     player.body.setSize(20, 32, 5, 16);
@@ -51,7 +69,11 @@ function create() {
 
 function update() {
     game.physics.arcade.collide(player, baseLayer);
-    game.physics.arcade.collide(player, trap);
+    game.physics.arcade.collide(coins, baseLayer);
+    game.physics.arcade.overlap(player, trap, hurt, null, this);
+    game.physics.arcade.overlap(player, coins, collectCoin, null, this);
+    game.physics.arcade.overlap(player, chest, collectChest, null, this);
+    game.physics.arcade.overlap(player, door, win, null, this);
 
     player.body.velocity.x = 0;
 
@@ -85,4 +107,23 @@ function update() {
             facing = 'idle';
         }
     }
+}
+
+function collectCoin(player, coin) {
+    coin.kill();
+    score++;
+}
+
+function hurt(player, trap) {
+    life--;
+
+}
+
+function collectChest(player, chest) {
+    chest.kill();
+    score = score + 10;
+}
+
+function win() {
+    //game.state.start('Stage2');
 }
