@@ -31,7 +31,7 @@ function create() {
     bg.height = game.height;
 
     newGameButton = createButton(game.world.centerX, game.world.centerY, "New Game", function () {
-        game.state.start('Stage1', true, true, [game]);
+        game.state.start('Stage2', true, true, [game,0,3]);
     });
 
     continueButton = createButton(game.world.centerX, game.world.centerY + 35, "Continue", function () {
@@ -87,53 +87,7 @@ function create() {
     });
 
     scoreButton = createButton(game.world.centerX, game.world.centerY + 105, "Score Board", function () {
-        //if (this.msgBox)
-        //    this.msgBox.destroy();
-
-        //var style = { font: "25px Arial", fill: "#000000", align: "left" };
-        //var msgBox = game.add.group();
-        //var box = game.add.sprite(0, 0, "messageBox");
-        //var closeButton = game.add.sprite(0, 0, "closeButton");
-        //var instruction = game.add.text(50, msgBox.y + 10, "Score Board", style);
-        //var instruction1 = game.add.text(msgBox.x + 80, msgBox.y + 50, "Arrow Up - Jump", style);
-        //var instruction2 = game.add.text(msgBox.x + 80, msgBox.y + 80, "Arrow Right - Move right", style);
-        //var instruction3 = game.add.text(msgBox.x + 80, msgBox.y + 110, "Arrow Left - Move left", style);
-        //var instruction4 = game.add.text(msgBox.x + 80, msgBox.y + 140, "Spacebar - Shoot", style);
-        //var instruction5 = game.add.text(msgBox.x + 80, msgBox.y + 170, "ESC - Menu", style);
-        //var instruction6 = game.add.text(msgBox.x + 80, msgBox.y + 200, "P - Pause / Unpause", style);
-
-        //enableButton(false);
-
-        //box.width = 430;
-        //box.height = 250;
-        //box.x = 15;
-        //box.y = 0;
-        //closeButton.width = 40;
-        //closeButton.height = 40;
-
-        //msgBox.add(box);
-        //msgBox.add(instruction);
-        //msgBox.add(instruction1);
-        //msgBox.add(instruction2);
-        //msgBox.add(instruction3);
-        //msgBox.add(instruction4);
-        //msgBox.add(instruction5);
-        //msgBox.add(instruction6);
-        //msgBox.add(closeButton);
-
-        //closeButton.x = msgBox.x + 400;
-        //closeButton.y = msgBox.y + 5;
-        //instruction.x = msgBox.width / 2 - instruction.width / 2;
-        //msgBox.x = game.width / 2 - msgBox.width / 2;
-        //msgBox.y = game.height / 2 - msgBox.height / 2;
-
-        //closeButton.inputEnabled = true;
-        //closeButton.events.onInputDown.add(function () {
-        //    enableButton(true);
-        //    msgBox.destroy();
-        //}, this);
-
-        //this.msgBox = msgBox;
+        game.state.start('ScoreBoard', true, true, [game]);
     });
 }
 

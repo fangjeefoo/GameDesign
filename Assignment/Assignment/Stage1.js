@@ -188,7 +188,7 @@ function collectChest(player, chest) {
 }
 
 function win() {
-    game.state.start('Stage2', true, true, [game,score,life]);
+    game.state.start('Stage2', true, true, [game, score, life]);
 }
 
 function menuOption() {

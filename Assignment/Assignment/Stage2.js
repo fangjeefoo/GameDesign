@@ -7,6 +7,7 @@ var trap;
 var coins;
 var chest;
 var door;
+var hiddenBlock;
 var score;
 var life;
 var player;
@@ -30,6 +31,8 @@ var menu;
 var pause;
 var pressTimer;
 var pauseBool;
+var tempScore;
+var tempLife;
 
 function init(data) {
     game = data[0];
@@ -51,6 +54,8 @@ function preload() {
 }
 
 function create() {
+    tempLife = life;
+    tempScore = score;
     pauseBool = false;
     pressTimer = 0;
     starTime = 0;
@@ -67,12 +72,16 @@ function create() {
     map.addTilesetImage('Assets');
     map.setCollisionByExclusion([1, 2], true, 'BaseLayer');
     map.setCollisionBetween(1, 1000, true, 'Traps');
+    map.setCollisionBetween(1, 1000, true, 'hiddenBlock');
 
     baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
 
     trap = map.createLayer('Traps');
     trap.resizeWorld();
+
+    hiddenBlock = map.createLayer('hiddenBlock');
+    hiddenBlock.resizeWorld();
 
     coins = game.add.group();
     coins.enableBody = true;
@@ -93,7 +102,7 @@ function create() {
     lifeText = game.add.text(0, 20, 'Life: ' + life, style);
     lifeText.fixedToCamera = true;
 
-    player = game.add.sprite(50, 330, 'hero');
+    player = game.add.sprite(30, 50, 'hero');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.gravity.y = 500;
     player.body.bounce.y = 0.1;
@@ -103,15 +112,15 @@ function create() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
     game.camera.follow(player);
-	enemy = game.add.sprite(Math.random(), Math.random(), 'mob');
+
     enemy = game.add.group();
     enemy.enableBody = true;
 
-    for (var i = 1; i < 11; i++) {
-    	var enemies = enemy.create(i * 125, 165, 'mob');
-    	enemy.setAll('body.gravity.y', 500);
-    	enemy.setAll('body.immovable', true);
-    }
+    //for (var i = 1; i < 4; i++) {
+    	var enemies = enemy.create(1 * 10, 165, 'mob');
+    //}
+    enemy.setAll('body.gravity.y', 500);
+    enemy.setAll('body.velocity.x', 50);
 
     stars = game.add.group();
     stars.enableBody = true;
@@ -133,6 +142,7 @@ function update() {
     game.physics.arcade.collide(player, baseLayer);
     game.physics.arcade.collide(coins, baseLayer);
     game.physics.arcade.collide(enemy, baseLayer);
+    game.physics.arcade.collide(enemy, hiddenBlock);
     game.physics.arcade.collide(player, trap, hurt, null, this);
     game.physics.arcade.collide(player, enemy, hurt2, null, this);
     game.physics.arcade.collide(stars, enemy, dead, null, this);
@@ -196,6 +206,9 @@ function update() {
 
     if (pause.isDown)
         enableKey(false);
+
+    console.log(enemy.x);
+    checkBound(enemy, 200);
 }
 
 function collectCoin(player, coin) {
@@ -307,7 +320,7 @@ function menuOption() {
         //game.state.start('Menu', true, true, [game]);
     }, msgBox));
     msgBox.add(myButton(game.width / 2, game.height / 2 + 80, "Restart", function () {
-        game.state.restart(true, true, [game]);
+        game.state.restart(true, true, [game, tempScore, tempLife]);
     }, msgBox));
 
     closeButton.x = box.x + 470;
@@ -352,4 +365,9 @@ function myButton(positionX, positionY, text, callback, msgBox) {
     }, this);
 
     return button;
+}
+
+function checkBound(enemy, bound) {
+    if (enemy.x >= bound)
+        enemy.body.velocity.x = enemy.body.velocity.x * -1;
 }

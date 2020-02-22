@@ -13,7 +13,7 @@ function create() {
     game.stage.backgroundColor = "#FFFFFF";
 
     createButton(300, 200, 'OK', function () {
-        game.state.start('Menu', true, true, [game]);
+        game.state.start('ScoreBoard', true, true, [game]);
     });
 }
 
