@@ -141,8 +141,8 @@ function update() {
     
     game.physics.arcade.collide(player, baseLayer);
     game.physics.arcade.collide(coins, baseLayer);
-    game.physics.arcade.collide(enemy, baseLayer);
-    game.physics.arcade.collide(enemy, hiddenBlock);
+    game.physics.arcade.collide(enemy, baseLayer, checkBound, null, this);
+    game.physics.arcade.collide(enemy, hiddenBlock, checkBound, null, this);
     game.physics.arcade.collide(player, trap, hurt, null, this);
     game.physics.arcade.collide(player, enemy, hurt2, null, this);
     game.physics.arcade.collide(stars, enemy, dead, null, this);
@@ -206,9 +206,6 @@ function update() {
 
     if (pause.isDown)
         enableKey(false);
-
-    console.log(enemy.x);
-    checkBound(enemy, 200);
 }
 
 function collectCoin(player, coin) {
@@ -367,7 +364,6 @@ function myButton(positionX, positionY, text, callback, msgBox) {
     return button;
 }
 
-function checkBound(enemy, bound) {
-    if (enemy.x >= bound)
-        enemy.body.velocity.x = enemy.body.velocity.x * -1;
+function checkBound() {
+    enemy.setAll('body.velocity.x', 50 * -1);
 }
