@@ -269,7 +269,6 @@ function win() {
 }
 
 function dead(stars, enemy) {
-	stars.kill();
 	enemy.destroy();
 	score += 15;
 }
@@ -298,6 +297,8 @@ function enableKey(isMenu) {
     if (game.time.now > pressTimer) {
         pressTimer = game.time.now + 1000;
         if (!pauseBool) {
+            enemy.setAll('body.immovable', true);
+            enemy.setAll('body.move', false);
             cursors.left.enabled = false;
             cursors.right.enabled = false;
             cursors.up.enabled = false;
@@ -306,6 +307,8 @@ function enableKey(isMenu) {
             pauseBool = true;
         }
         else {
+            enemy.setAll('body.immovable', false);
+            enemy.setAll('body.move', true);
             cursors.left.enabled = true;
             cursors.right.enabled = true;
             cursors.up.enabled = true;
