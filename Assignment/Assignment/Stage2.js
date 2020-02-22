@@ -1,4 +1,4 @@
-﻿var stage2 = { preload: preload, create: create, update: update };
+﻿var stage2 = { init: init, preload: preload, create: create, update: update };
 
 var map;
 var tileset;
@@ -10,15 +10,32 @@ var door;
 var score;
 var life;
 var player;
-var facing = 'right';
+var facing;
+var trapTimer;
 var cursors;
 var style;
 var scoreText;
 var lifeText;
 var onTheGround;
 var jumping;
-var hard = true;
-var jump = 0;
+var hard;
+var jump;
+var shootKey;
+var stars;
+var starTime;
+var nextFire;
+var enemy;
+var game;
+var menu;
+var pause;
+var pressTimer;
+var pauseBool;
+
+function init(data) {
+    game = data[0];
+    score = data[1];
+    life = data[2];
+}
 
 function preload() {
     game.load.tilemap('map', 'resource/Level2/Stage2.json', null, Phaser.Tilemap.TILED_JSON);
@@ -31,13 +48,22 @@ function preload() {
     game.load.image('star', 'resource/star.png');
 }
 
-function create() {   
+function create() {
+    pauseBool = false;
+    pressTimer = 0;
+    starTime = 0;
+    nextFire = 0;
+    trapTimer = 0;
+    hard = true;
+    jump = 0;
+    facing = 'right';
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = "#34202B";
 
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
-    map.setCollisionByExclusion([1, 2]);
+    map.setCollisionByExclusion([1, 2], true, 'BaseLayer');
     map.setCollisionBetween(1, 1000, true, 'Traps');
 
     baseLayer = map.createLayer('BaseLayer');
@@ -75,8 +101,27 @@ function create() {
     player.animations.add('turn', [4], 20, true);
     player.animations.add('right', [5, 6, 7, 8], 10, true);
     game.camera.follow(player);
+	enemy = game.add.sprite(Math.random(), Math.random(), 'mob');
+    enemy = game.add.group();
+    enemy.enableBody = true;
+
+    for (var i = 1; i < 11; i++) {
+    	var enemies = enemy.create(i * 125, 165, 'mob');
+    	enemy.setAll('body.gravity.y', 500);
+    	enemy.setAll('body.immovable', true);
+    }
+
+    stars = game.add.group();
+    stars.enableBody = true;
+    stars.physicalBodyType = Phaser.Physics.ARCADE;
+    stars.createMultiple(50, 'star');
+    stars.setAll('checkWorldBounds', true);
+    stars.setAll('outOfBoundsKill', true);						 
 
     cursors = game.input.keyboard.createCursorKeys();
+    shootKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    menu = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    pause = game.input.keyboard.addKey(Phaser.Keyboard.P);
 }
 
 function update() {
@@ -84,8 +129,11 @@ function update() {
     lifeText.setText('Life: ' + life);
     
     game.physics.arcade.collide(player, baseLayer);
-    game.physics.arcade.collide(player, trap, hurt, null, this);
     game.physics.arcade.collide(coins, baseLayer);
+    game.physics.arcade.collide(enemy, baseLayer);
+    game.physics.arcade.collide(player, trap, hurt, null, this);
+    game.physics.arcade.collide(player, enemy, hurt2, null, this);
+    game.physics.arcade.collide(stars, enemy, dead, null, this);
     game.physics.arcade.collide(player, coins, collectCoin, null, this);
     game.physics.arcade.collide(player, chest, collectChest, null, this);
     game.physics.arcade.collide(player, door, win, null, this);
@@ -127,7 +175,7 @@ function update() {
     }
 
     if (jump > 0 && cursors.up.isDown) {
-        player.body.velocity.y = -190;
+        player.body.velocity.y = -230;
         jumping = true;
         cursors.up.reset(hard);
     }
@@ -136,6 +184,16 @@ function update() {
         jump--;
         jumping = false;
     }
+
+    if (shootKey.isDown) {
+    	fire();
+    }
+
+    if (menu.isDown)
+        menuOption();
+
+    if (pause.isDown)
+        enableKey(false);
 }
 
 function collectCoin(player, coin) {
@@ -143,10 +201,24 @@ function collectCoin(player, coin) {
     score++;
 }
 
+function hurt2(player, enemy) {
+    if (game.time.now > trapTimer)
+        life--;
+
+    if (life == 0) 
+        game.state.start("Lose", true, true, game);
+
+    trapTimer = game.time.now + 750;
+}
+
 function hurt(player, trap) {
-    life--;
-    //if (life == 0)
-       // game.state.start("Lose");
+    if (game.time.now > trapTimer)
+        life--;
+
+    if (life == 0) 
+        game.state.start("Lose", true, true, game);     
+    
+    trapTimer = game.time.now + 750;
 }
 
 function collectChest(player, chest) {
@@ -155,5 +227,60 @@ function collectChest(player, chest) {
 }
 
 function win() {
-    game.state.start('Win');
+    game.state.start('Lose', true, true, game);
+}
+
+function dead(stars, enemy) {
+	stars.kill();
+	enemy.destroy();
+	score += 15;
+}
+
+function fire() {
+    if (game.time.now > starTime) {
+        var star = stars.getFirstExists(false);
+
+        if (star) {
+            star.reset(player.x, player.y + 20);
+            if (facing != 'left') {
+                star.body.velocity.x = 400;
+                facing = 'left';
+            }
+            else if (facing != 'right') {
+                star.body.velocity.x = -400;
+                facing = 'right';
+            }
+
+            starTime = game.time.now + 200;
+        }
+    }
+}
+
+function enableKey(isMenu) {
+    if (game.time.now > pressTimer) {
+        pressTimer = game.time.now + 1000;
+        if (!pauseBool) {
+            cursors.left.enabled = false;
+            cursors.right.enabled = false;
+            cursors.up.enabled = false;
+            pauseBool = true;
+        }
+        else {
+            cursors.left.enabled = true;
+            cursors.right.enabled = true;
+            cursors.up.enabled = true;
+            pauseBool = false;
+        }
+
+        if (isMenu) {
+            if (!pauseBool) {
+                pause.enabled = false;
+                pauseBool = true;
+            }
+            else {
+                pause.enabled = true;
+                pauseBool = false;
+            }
+        }
+    }
 }

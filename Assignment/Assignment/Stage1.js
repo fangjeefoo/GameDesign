@@ -1,4 +1,4 @@
-﻿var stage1 = { preload: preload, create: create, update: update };
+﻿var stage1 = { init: init, preload: preload, create: create, update: update };
 
 var map;
 var tileset;
@@ -7,21 +7,32 @@ var layer2;
 var coins;
 var chest;
 var door;
-var score = 0;
-var life = 3;
+var score;
+var life;
 var player;
-var facing = 'right';
-var trapTimer = 0;
+var facing;
+var trapTimer;
 var cursors;
 var style;
 var scoreText;
 var lifeText;
 var onTheGround;
 var jumping;
-var hard = true;
-var jump = 0;
+var hard;
+var jump;
+var game;
+var menu;
+var pause;
+var pressTimer;
+var pauseBool;
+
+function init(data) {
+    game = data[0];
+}
 
 function preload() {
+    game.load.image('messageBox', 'resource/messageBox.png');
+    game.load.image('closeButton', 'resource/closeButton.png');
     game.load.tilemap('map', 'resource/Level1/Stage1.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level1/Assets.png');
     game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
@@ -33,13 +44,22 @@ function preload() {
 }
 
 function create() {
+    pauseBool = false;
+    pressTimer = 0;
+    score = 0;
+    life = 3;
+    trapTimer = 0;
+    hard = true;
+    jump = 0;
+    facing = 'right';
+
     game.physics.startSystem(Phaser.Physics.ARCADE);
     game.stage.backgroundColor = "#34202B";
 
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
-    map.setCollisionByExclusion([1, 2]);
-    map.setCollisionBetween(1, 1000, true, 'Traps');
+    map.setCollisionByExclusion([2], true, 'BaseLayer');
+    map.setCollisionBetween(0, 1000, true, 'Traps');
 
     baseLayer = map.createLayer('BaseLayer');
     baseLayer.resizeWorld();
@@ -78,6 +98,8 @@ function create() {
     game.camera.follow(player);
 
     cursors = game.input.keyboard.createCursorKeys();
+    menu = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    pause = game.input.keyboard.addKey(Phaser.Keyboard.P);
 }
 
 function update() {
@@ -128,7 +150,7 @@ function update() {
     }
 
     if (jump > 0 && cursors.up.isDown) {
-        player.body.velocity.y = -190;
+        player.body.velocity.y = -230;
         jumping = true;
         cursors.up.reset(hard);
     }
@@ -137,6 +159,12 @@ function update() {
         jump--;
         jumping = false;
     }
+
+    if (menu.isDown)
+        menuOption();
+
+    if (pause.isDown)
+        enableKey(false);
 }
 
 function collectCoin(player, coin) {
@@ -149,7 +177,7 @@ function hurt(player, trap) {
         life--;
 
     if (life == 0)
-        game.state.start("Lose");
+       game.state.start("Lose", true, true, [game]);
 
    trapTimer = game.time.now + 750;
 }
@@ -160,5 +188,85 @@ function collectChest(player, chest) {
 }
 
 function win() {
-    game.state.start('Stage2');
+    game.state.start('Stage2', true, true, [game,score,life]);
+}
+
+function menuOption() {
+    enableKey(true);
+
+    if (this.msgBox)
+        this.msgBox.destroy();
+
+    var style = { font: "25px Arial", fill: "#000000", align: "left" };
+    var msgBox = game.add.group();
+    var box = game.add.sprite(0, 0, "messageBox");
+    var closeButton = game.add.sprite(0, 0, "closeButton");
+    var instruction = game.add.text(50, msgBox.y + 10, "Control", style);
+    var instruction1 = game.add.text(msgBox.x + 80, msgBox.y + 50, "Arrow Up - Jump", style);
+    var instruction2 = game.add.text(msgBox.x + 80, msgBox.y + 80, "Arrow Right - Move right", style);
+    var instruction3 = game.add.text(msgBox.x + 80, msgBox.y + 110, "Arrow Left - Move left", style);
+    var instruction4 = game.add.text(msgBox.x + 80, msgBox.y + 140, "Spacebar - Shoot", style);
+    var instruction5 = game.add.text(msgBox.x + 80, msgBox.y + 170, "ESC - Menu", style);
+    var instruction6 = game.add.text(msgBox.x + 80, msgBox.y + 200, "P - Pause / Unpause", style);
+
+    box.width = 430;
+    box.height = 250;
+    box.x = 15;
+    box.y = 0;
+    closeButton.width = 40;
+    closeButton.height = 40;
+
+    msgBox.add(box);
+    msgBox.add(instruction);
+    msgBox.add(instruction1);
+    msgBox.add(instruction2);
+    msgBox.add(instruction3);
+    msgBox.add(instruction4);
+    msgBox.add(instruction5);
+    msgBox.add(instruction6);
+    msgBox.add(closeButton);
+
+    closeButton.x = msgBox.x + 400;
+    closeButton.y = msgBox.y + 5;
+    instruction.x = msgBox.width / 2 - instruction.width / 2;
+    msgBox.x = 600 / 2 - msgBox.width / 2;
+    msgBox.y = 300 / 2 - msgBox.height / 2;
+    msgBox.fixedToCamera = true;
+
+    closeButton.inputEnabled = true;
+    closeButton.events.onInputDown.add(function () {
+        enableKey(true);
+        msgBox.destroy();
+    }, this);
+
+    this.msgBox = msgBox;
+}
+
+function enableKey(isMenu) {
+    if (game.time.now > pressTimer) {
+        pressTimer = game.time.now + 1000;
+        if (!pauseBool){
+            cursors.left.enabled = false;
+            cursors.right.enabled = false;
+            cursors.up.enabled = false;
+            pauseBool = true;
+        }
+        else {
+            cursors.left.enabled = true;
+            cursors.right.enabled = true;
+            cursors.up.enabled = true;
+            pauseBool = false;
+        }
+
+        if (isMenu) {
+            if (!pauseBool) {
+                pause.enabled = false;
+                pauseBool = true;
+            }
+            else {
+                pause.enabled = true;
+                pauseBool = false;
+            }
+        }
+    }
 }
