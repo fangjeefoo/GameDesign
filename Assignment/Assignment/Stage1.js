@@ -169,7 +169,7 @@ function update() {
 
 function collectCoin(player, coin) {
     coin.kill();
-    score++;
+    score = score + 5;
 }
 
 function hurt(player, trap) {
@@ -184,7 +184,7 @@ function hurt(player, trap) {
 
 function collectChest(player, chest) {
     chest.kill();
-    score = score + 10;
+    score = score + 25;
 }
 
 function win() {

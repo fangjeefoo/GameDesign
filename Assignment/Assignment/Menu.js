@@ -71,7 +71,7 @@ function create() {
         msgBox.add(instruction6);
         msgBox.add(closeButton);
 
-        closeButton.x = msgBox.x + 400;
+        closeButton.x = msgBox.x + 380;
         closeButton.y = msgBox.y + 5;
         instruction.x = msgBox.width / 2 - instruction.width / 2;
         msgBox.x = game.width / 2 - msgBox.width / 2;

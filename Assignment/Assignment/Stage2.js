@@ -33,6 +33,7 @@ var pressTimer;
 var pauseBool;
 var tempScore;
 var tempLife;
+var speed;
 
 function init(data) {
     game = data[0];
@@ -54,6 +55,7 @@ function preload() {
 }
 
 function create() {
+    speed = 50;
     tempLife = life;
     tempScore = score;
     pauseBool = false;
@@ -120,7 +122,7 @@ function create() {
     	var enemies = enemy.create(1 * 10, 165, 'mob');
     //}
     enemy.setAll('body.gravity.y', 500);
-    enemy.setAll('body.velocity.x', 50);
+    enemy.setAll('body.velocity.x', speed);
 
     stars = game.add.group();
     stars.enableBody = true;
@@ -141,7 +143,7 @@ function update() {
     
     game.physics.arcade.collide(player, baseLayer);
     game.physics.arcade.collide(coins, baseLayer);
-    game.physics.arcade.collide(enemy, baseLayer, checkBound, null, this);
+    game.physics.arcade.collide(enemy, baseLayer);
     game.physics.arcade.collide(enemy, hiddenBlock, checkBound, null, this);
     game.physics.arcade.collide(player, trap, hurt, null, this);
     game.physics.arcade.collide(player, enemy, hurt2, null, this);
@@ -210,7 +212,7 @@ function update() {
 
 function collectCoin(player, coin) {
     coin.kill();
-    score++;
+    score = score + 5;
 }
 
 function hurt2(player, enemy) {
@@ -235,7 +237,7 @@ function hurt(player, trap) {
 
 function collectChest(player, chest) {
     chest.kill();
-    score = score + 10;
+    score = score + 25;
 }
 
 function win() {
@@ -365,5 +367,6 @@ function myButton(positionX, positionY, text, callback, msgBox) {
 }
 
 function checkBound() {
-    enemy.setAll('body.velocity.x', 50 * -1);
+    speed = speed * -1;
+    enemy.setAll('body.velocity.x', speed);
 }
