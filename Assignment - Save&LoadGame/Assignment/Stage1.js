@@ -106,7 +106,7 @@ function create() {
     lifeText.fixedToCamera = true;
 
     if (array !== null)
-        player = game.add.sprite(array[0] - 5, array[1] - 5, 'hero');
+        player = game.add.sprite(array[0], array[1] - 5, 'hero');
     else 
         player = game.add.sprite(50, 500, 'hero');
         

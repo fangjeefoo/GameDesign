@@ -10,3 +10,9 @@ C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\
 C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Copy\Assignment\obj\Debug\Assignment.csprojResolveAssemblyReference.cache
 C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Copy\Assignment\obj\Debug\Assignment.dll
 C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Copy\Assignment\obj\Debug\Assignment.pdb
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Save&LoadGame\Assignment\bin\Assignment.dll.config
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Save&LoadGame\Assignment\bin\Assignment.dll
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Save&LoadGame\Assignment\bin\Assignment.pdb
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Save&LoadGame\Assignment\obj\Debug\Assignment.csprojResolveAssemblyReference.cache
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Save&LoadGame\Assignment\obj\Debug\Assignment.dll
+C:\Users\asus\Google Drive (foofangjee@gmail.com)\Semester 2\TGD3151\Assignment\GameDesign\Assignment - Save&LoadGame\Assignment\obj\Debug\Assignment.pdb
