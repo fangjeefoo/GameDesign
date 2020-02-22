@@ -35,6 +35,7 @@ var tempScore;
 var tempLife;
 var speed;
 var level;
+var pressed = 0;
 
 function init(data, file, playerPosX, playerPosY, life, score) {
     if (file) {
@@ -238,8 +239,16 @@ function update() {
     if (menu.isDown)
         menuOption();
 
-    if (pause.isDown)
+    if (pause.isDown) {
         enableKey(false);
+        pressed++;
+        pause.reset(hard);
+        if (pressed % 2 == 0) {
+            enemy.setAll('body.enable', true);
+        } else {
+            enemy.setAll('body.enable', false);
+        }
+    }
 }
 
 function collectCoin(player, coin) {
