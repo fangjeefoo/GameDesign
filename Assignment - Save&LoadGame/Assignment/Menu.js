@@ -165,9 +165,9 @@ function createButton(positionX, positionY, text, callback, msgBox) {
 function loadGame() {
     var file = JSON.parse(localStorage.getItem('SaveFile'));
     var level = file.level;
-
-    if (level == 1) 
+    if (level == '1') 
         game.state.start('Stage1', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
     else 
         game.state.start('Stage2', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
+    
 }

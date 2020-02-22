@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="12" nextobjectid="390">
+<map version="1.2" tiledversion="1.3.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="60" height="38" tilewidth="16" tileheight="16" infinite="0" nextlayerid="13" nextobjectid="406">
  <editorsettings>
   <export target="Stage2.json" format="json"/>
  </editorsettings>
  <tileset firstgid="1" name="Assets" tilewidth="16" tileheight="16" tilecount="322" columns="23">
   <image source="Assets.png" width="368" height="224"/>
+ </tileset>
+ <tileset firstgid="323" name="items" tilewidth="16" tileheight="16" tilecount="32" columns="4">
+  <image source="../dungeon_tileset_puo/items.png" width="64" height="128"/>
  </tileset>
  <layer id="1" name="BaseLayer" width="60" height="38">
   <data encoding="csv">
@@ -132,6 +135,20 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="12" name="Hearts">
+  <object id="390" gid="323" x="176" y="432" width="16" height="16"/>
+  <object id="391" gid="324" x="192" y="432" width="16" height="16"/>
+  <object id="392" gid="327" x="176" y="448" width="16" height="16"/>
+  <object id="393" gid="328" x="192" y="448" width="16" height="16"/>
+  <object id="398" gid="324" x="800" y="464" width="16" height="16"/>
+  <object id="399" gid="323" x="784" y="464" width="16" height="16"/>
+  <object id="400" gid="327" x="784" y="480" width="16" height="16"/>
+  <object id="401" gid="328" x="800" y="480" width="16" height="16"/>
+  <object id="402" gid="328" x="96" y="272" width="16" height="16"/>
+  <object id="403" gid="327" x="80" y="272" width="16" height="16"/>
+  <object id="404" gid="323" x="80" y="256" width="16" height="16"/>
+  <object id="405" gid="324" x="96" y="256" width="16" height="16"/>
+ </objectgroup>
  <objectgroup id="3" name="Coins">
   <object id="6" gid="16" x="288" y="448" width="16" height="16"/>
   <object id="7" gid="16" x="32" y="272" width="16" height="16"/>

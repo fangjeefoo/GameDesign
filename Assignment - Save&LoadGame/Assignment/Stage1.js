@@ -26,6 +26,7 @@ var pause;
 var pressTimer;
 var pauseBool;
 var array = null;
+var level;
 
 function init(data, file, playerPosX, playerPosY, life, score) {
     if (file) {
@@ -53,6 +54,7 @@ function preload() {
     game.load.image('door', 'resource/door.png');
     game.load.image('coins', 'resource/Gold_21.png');
     game.load.image('star', 'resource/star.png');
+    game.load.image('hearts', 'resource/heart.png');
 }
 
 function create() {
@@ -64,6 +66,7 @@ function create() {
         score = 0;
         life = 3;
     }
+    level = 1;
     pauseBool = false;
     pressTimer = 0;
     trapTimer = 0;
@@ -93,6 +96,9 @@ function create() {
     chest.enableBody = true;
     map.createFromObjects('Chest', 85, 'chest', 0, true, false, chest);
 
+    hearts = game.add.group();
+    hearts.enableBody = true;
+    map.createFromObjects('Hearts', 328, 'hearts', 0, true, false, hearts);
 
     door = game.add.group();
     door.enableBody = true;
@@ -130,8 +136,9 @@ function update() {
     lifeText.setText('Life: ' + life);
 
     game.physics.arcade.collide(player, baseLayer);
+    game.physics.arcade.collide(coins, baseLayer);
     game.physics.arcade.collide(player, layer2, hurt, null, this);
-    game.physics.arcade.collide(coins, baseLayer);    
+    game.physics.arcade.collide(player, hearts, collectHeart, null, this);
     game.physics.arcade.collide(player, coins, collectCoin, null, this);
     game.physics.arcade.collide(player, chest, collectChest, null, this);
     game.physics.arcade.collide(player, door, win, null, this);
@@ -193,6 +200,11 @@ function update() {
 function collectCoin(player, coin) {
     coin.kill();
     score = score + 5;
+}
+
+function collectHeart(player, hearts) {
+    life++;
+    hearts.kill();
 }
 
 function hurt(player, trap) {
@@ -317,7 +329,7 @@ function saveFile() {
     var file = {
         playerPosX: player.body.x,
         playerPosY: player.body.y,
-        level: 1,
+        level: level,
         score: score,
         life: life
     };
