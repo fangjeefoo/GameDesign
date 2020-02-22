@@ -16,6 +16,9 @@ function preload() {
 }
 
 function create() {
+    game.world.height = 300;
+    game.world.width = 600;
+
 	var bg = game.add.sprite(0, 0, 'background');
 	bg.width = game.width;
 	bg.height = game.height;

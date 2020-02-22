@@ -31,7 +31,7 @@ function create() {
     bg.height = game.height;
 
     newGameButton = createButton(game.world.centerX, game.world.centerY, "New Game", function () {
-        game.state.start('Stage2', true, true, [game,0,3]);
+        game.state.start('Stage1', true, true, [game,0,3]);
     });
 
     continueButton = createButton(game.world.centerX, game.world.centerY + 35, "Continue", function () {

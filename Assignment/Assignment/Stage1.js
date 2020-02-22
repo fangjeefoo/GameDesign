@@ -215,7 +215,7 @@ function menuOption() {
         game.state.start('Menu', true, true, [game]);
     }, msgBox));
     msgBox.add(myButton(game.width / 2, game.height / 2 + 10, "Score Board", function () {
-        //game.state.start('Menu', true, true, [game]);
+        game.state.start('ScoreBoard', true, true, [game]);
     }, msgBox));
     msgBox.add(myButton(game.width / 2, game.height / 2 + 80, "Restart", function () {
         game.state.restart(true, true, [game]);
