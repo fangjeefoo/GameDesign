@@ -29,7 +29,6 @@
     <Content Include="Menu.js" />
     <Content Include="phaser.js" />
     <Content Include="phaser.min.js" />
-    <Content Include="saveFile.js" />
     <Content Include="ScoreBoard.js" />
     <Content Include="Stage1.js" />
     <Content Include="Stage2.js" />

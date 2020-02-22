@@ -31,14 +31,13 @@ function create() {
     bg.height = game.height;
 
     newGameButton = createButton(game.world.centerX, game.world.centerY, "New Game", function () {
-        game.state.start('Stage1', true, true, [game]);
+        game.state.start('Stage1', true, true, game);
     });
 
     continueButton = createButton(game.world.centerX, game.world.centerY + 35, "Continue", function () {
+        console.log('check continue button');
         if (localStorage.getItem('SaveFile') !== null)
             loadGame();
-        else
-            //show message box here
     });
 
     instructionButton = createButton(game.world.centerX, game.world.centerY + 70, "How To Play", function () {
@@ -123,12 +122,14 @@ function createButton(positionX, positionY, text, callback) {
 }
 
 function loadGame() {
+    console.log('check load game');
     var file = JSON.parse(localStorage.getItem('SaveFile'));
 
     var level = file.level;
 
-    if(level == 1)
-        game.state.start('Stage1', true, true, game, file.playerPosX, file.playerPosY, file.chest, file.coin, file. life, file.score);
+    if (level == 1) 
+        game.state.start('Stage1', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
+    
     else 
-        game.state.start('Stage2', true, true, game, file.playerPosX, file.playerPosY, file.chest, file.coin, file.life, file.score, file.enemy);
+        game.state.start('Stage1', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
 }

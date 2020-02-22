@@ -25,21 +25,21 @@ var menu;
 var pause;
 var pressTimer;
 var pauseBool;
-var array;
+var array = null;
 
-function init(data) {
-    game = data[0];
-}
-
-function init(game, playerPosX, playerPosY, chest, coin, life, score) {
-    array = new Array(6);
-    this.game = game;
-    array[0] = playerPosX;
-    array[1] = playerPosY;
-    array[2] = chest;
-    array[3] = coin;
-    array[4] = life;
-    array[5] = score;
+function init(data, file, playerPosX, playerPosY, life, score) {
+    if (file) {
+        array = new Array(4);
+        this.game = game;
+        array[0] = playerPosX;
+        array[1] = playerPosY;
+        array[2] = life;
+        array[3] = score;
+    }
+    else {
+        array = null;
+        game = data;
+    }
 }
 
 function preload() {
@@ -56,10 +56,16 @@ function preload() {
 }
 
 function create() {
+    if (array !== null) {
+        score = array[3];
+        life = array[2];
+    }
+    else {
+        score = 0;
+        life = 3;
+    }
     pauseBool = false;
     pressTimer = 0;
-    score = 0;
-    life = 3;
     trapTimer = 0;
     hard = true;
     jump = 0;
@@ -87,6 +93,7 @@ function create() {
     chest.enableBody = true;
     map.createFromObjects('Chest', 85, 'chest', 0, true, false, chest);
 
+
     door = game.add.group();
     door.enableBody = true;
     map.createFromObjects('ExitDoor', 1073741856, 'door', 0, true, false, door);
@@ -98,7 +105,11 @@ function create() {
     lifeText = game.add.text(0, 20, 'Life: ' + life, style);
     lifeText.fixedToCamera = true;
 
-    player = game.add.sprite(50, 500, 'hero');
+    if (array !== null)
+        player = game.add.sprite(array[0] - 5, array[1] - 5, 'hero');
+    else 
+        player = game.add.sprite(50, 500, 'hero');
+        
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.gravity.y = 500;
     player.body.bounce.y = 0.1;
@@ -200,7 +211,7 @@ function collectChest(player, chest) {
 }
 
 function win() {
-    game.state.start('Stage2', true, true, [game, score, life]);
+    game.state.start('Stage2', true, true, game, false, null, null, life, score);
 }
 
 function menuOption() {
@@ -226,11 +237,14 @@ function menuOption() {
     msgBox.add(myButton(game.width / 2, game.height / 2 - 50, "Main Menu", function () {
         game.state.start('Menu', true, true, [game]);
     }, msgBox));
-    msgBox.add(myButton(game.width / 2, game.height / 2 + 10, "Score Board", function () {
+    msgBox.add(myButton(game.width / 2, game.height / 2, "Score Board", function () {
         game.state.start('ScoreBoard', true, true, [game]);
     }, msgBox));
-    msgBox.add(myButton(game.width / 2, game.height / 2 + 80, "Restart", function () {
-        game.state.restart(true, true, [game]);
+    msgBox.add(myButton(game.width / 2, game.height / 2 + 50, "Restart", function () {
+        game.state.restart(true, true, game, false, null, null, null, null);
+    }, msgBox));
+    msgBox.add(myButton(game.width / 2, game.height / 2 + 100, "Save Game", function () {
+        saveFile();
     }, msgBox));
 
     closeButton.x = box.x + 470;
@@ -297,4 +311,15 @@ function myButton(positionX, positionY, text, callback, msgBox) {
     }, this);
 
     return button;
+}
+
+function saveFile() {
+    var file = {
+        playerPosX: player.body.x,
+        playerPosY: player.body.y,
+        level: 1,
+        score: score,
+        life: life
+    };
+    localStorage.setItem('SaveFile', JSON.stringify(file));
 }
