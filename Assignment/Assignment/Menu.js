@@ -58,8 +58,6 @@ function create() {
 
         box.width = 430;
         box.height = 250;
-        box.x = 15;
-        box.y = 0;
         closeButton.width = 40;
         closeButton.height = 40;
 

@@ -38,6 +38,8 @@ function init(data) {
 }
 
 function preload() {
+    game.load.image('messageBox', 'resource/messageBox.png');
+    game.load.image('closeButton', 'resource/closeButton.png');
     game.load.tilemap('map', 'resource/Level2/Stage2.json', null, Phaser.Tilemap.TILED_JSON);
     game.load.image('Assets', 'resource/Level2/Assets.png');
     game.load.spritesheet('hero', 'resource/dude.png', 32, 48);
@@ -263,24 +265,91 @@ function enableKey(isMenu) {
             cursors.left.enabled = false;
             cursors.right.enabled = false;
             cursors.up.enabled = false;
+            if (isMenu)
+                pause.enabled = false;
             pauseBool = true;
         }
         else {
             cursors.left.enabled = true;
             cursors.right.enabled = true;
             cursors.up.enabled = true;
+            if (isMenu)
+                pause.enabled = true;
             pauseBool = false;
         }
-
-        if (isMenu) {
-            if (!pauseBool) {
-                pause.enabled = false;
-                pauseBool = true;
-            }
-            else {
-                pause.enabled = true;
-                pauseBool = false;
-            }
-        }
     }
+}
+
+function menuOption() {
+    enableKey(true);
+
+    if (this.msgBox)
+        this.msgBox.destroy();
+
+    var style = { font: "25px Arial", fill: "#000000", align: "left" };
+    var msgBox = game.add.group();
+    var box = game.add.sprite(0, 0, "messageBox");
+    var closeButton = game.add.sprite(0, 0, "closeButton");
+    var instruction = game.add.text(50, msgBox.y + 30, "Menu", style);
+
+    box.width = 430;
+    box.height = 250;
+    closeButton.width = 40;
+    closeButton.height = 40;
+
+    msgBox.add(box);
+    msgBox.add(instruction);
+    msgBox.add(closeButton);
+    msgBox.add(myButton(game.width / 2, game.height / 2 - 50, "Main Menu", function () {
+        game.state.start('Menu', true, true, [game]);
+    }, msgBox));
+    msgBox.add(myButton(game.width / 2, game.height / 2 + 10, "Score Board", function () {
+        //game.state.start('Menu', true, true, [game]);
+    }, msgBox));
+    msgBox.add(myButton(game.width / 2, game.height / 2 + 80, "Restart", function () {
+        game.state.restart(true, true, [game]);
+    }, msgBox));
+
+    closeButton.x = box.x + 470;
+    closeButton.y = box.y + 30;
+    instruction.x = game.width / 2 - instruction.width / 2;
+    box.x = game.width / 2 - box.width / 2;
+    box.y = game.height / 2 - box.height / 2;
+
+    instruction.fixedToCamera = true;
+    closeButton.fixedToCamera = true;
+    box.fixedToCamera = true;
+
+    closeButton.inputEnabled = true;
+    closeButton.events.onInputDown.add(function () {
+        enableKey(true);
+        msgBox.destroy();
+    }, this);
+    this.msgBox = msgBox;
+}
+
+function myButton(positionX, positionY, text, callback, msgBox) {
+    var button = game.add.button(positionX, positionY, "", callback, this);
+    var style = { font: "25px Arial", fill: "#000000", align: "center" };
+    var button_text = game.add.text(button.x, button.y, text, style);
+
+    button.fixedToCamera = true;
+    button_text.fixedToCamera = true;
+    msgBox.add(button);
+    msgBox.add(button_text);
+
+    button.anchor.set(0.5, 0.5);
+    button.width = 200;
+    button.height = 50;
+    button_text.anchor.set(0.5, 0.5);
+
+    button.onInputOver.add(function () {
+        button_text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+    }, this);
+
+    button.onInputOut.add(function () {
+        button_text.setShadow();
+    }, this);
+
+    return button;
 }

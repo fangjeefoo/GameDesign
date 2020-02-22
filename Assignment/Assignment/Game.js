@@ -6,4 +6,4 @@ game.state.add('Stage2', stage2);
 game.state.add('Lose', lose);
 game.state.add('Win', win);
 
-game.state.start('Menu', true, true, [game]);
+game.state.start('Menu', true, false, [game]);

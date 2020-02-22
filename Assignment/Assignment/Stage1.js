@@ -201,44 +201,41 @@ function menuOption() {
     var msgBox = game.add.group();
     var box = game.add.sprite(0, 0, "messageBox");
     var closeButton = game.add.sprite(0, 0, "closeButton");
-    var instruction = game.add.text(50, msgBox.y + 10, "Control", style);
-    var instruction1 = game.add.text(msgBox.x + 80, msgBox.y + 50, "Arrow Up - Jump", style);
-    var instruction2 = game.add.text(msgBox.x + 80, msgBox.y + 80, "Arrow Right - Move right", style);
-    var instruction3 = game.add.text(msgBox.x + 80, msgBox.y + 110, "Arrow Left - Move left", style);
-    var instruction4 = game.add.text(msgBox.x + 80, msgBox.y + 140, "Spacebar - Shoot", style);
-    var instruction5 = game.add.text(msgBox.x + 80, msgBox.y + 170, "ESC - Menu", style);
-    var instruction6 = game.add.text(msgBox.x + 80, msgBox.y + 200, "P - Pause / Unpause", style);
+    var instruction = game.add.text(50, msgBox.y + 30, "Menu", style);
 
     box.width = 430;
     box.height = 250;
-    box.x = 15;
-    box.y = 0;
     closeButton.width = 40;
     closeButton.height = 40;
 
     msgBox.add(box);
     msgBox.add(instruction);
-    msgBox.add(instruction1);
-    msgBox.add(instruction2);
-    msgBox.add(instruction3);
-    msgBox.add(instruction4);
-    msgBox.add(instruction5);
-    msgBox.add(instruction6);
     msgBox.add(closeButton);
+    msgBox.add(myButton(game.width / 2, game.height / 2 - 50, "Main Menu", function () {
+        game.state.start('Menu', true, true, [game]);
+    }, msgBox));
+    msgBox.add(myButton(game.width / 2, game.height / 2 + 10, "Score Board", function () {
+        //game.state.start('Menu', true, true, [game]);
+    }, msgBox));
+    msgBox.add(myButton(game.width / 2, game.height / 2 + 80, "Restart", function () {
+        game.state.restart(true, true, [game]);
+    }, msgBox));
 
-    closeButton.x = msgBox.x + 400;
-    closeButton.y = msgBox.y + 5;
-    instruction.x = msgBox.width / 2 - instruction.width / 2;
-    msgBox.x = 600 / 2 - msgBox.width / 2;
-    msgBox.y = 300 / 2 - msgBox.height / 2;
-    msgBox.fixedToCamera = true;
+    closeButton.x = box.x + 470;
+    closeButton.y = box.y + 30;
+    instruction.x = game.width / 2 - instruction.width / 2;
+    box.x = game.width / 2 - box.width / 2;
+    box.y = game.height / 2 - box.height / 2;
+
+    instruction.fixedToCamera = true;
+    closeButton.fixedToCamera = true;
+    box.fixedToCamera = true;
 
     closeButton.inputEnabled = true;
     closeButton.events.onInputDown.add(function () {
         enableKey(true);
         msgBox.destroy();
     }, this);
-
     this.msgBox = msgBox;
 }
 
@@ -249,24 +246,43 @@ function enableKey(isMenu) {
             cursors.left.enabled = false;
             cursors.right.enabled = false;
             cursors.up.enabled = false;
+            if (isMenu)
+                pause.enabled = false;
             pauseBool = true;
         }
         else {
             cursors.left.enabled = true;
             cursors.right.enabled = true;
             cursors.up.enabled = true;
+            if (isMenu)
+                pause.enabled = true;
             pauseBool = false;
         }
-
-        if (isMenu) {
-            if (!pauseBool) {
-                pause.enabled = false;
-                pauseBool = true;
-            }
-            else {
-                pause.enabled = true;
-                pauseBool = false;
-            }
-        }
     }
+}
+
+function myButton(positionX, positionY, text, callback, msgBox) {
+    var button = game.add.button(positionX, positionY, "", callback, this);
+    var style = { font: "25px Arial", fill: "#000000", align: "center" };
+    var button_text = game.add.text(button.x, button.y, text, style);
+
+    button.fixedToCamera = true;
+    button_text.fixedToCamera = true;
+    msgBox.add(button);
+    msgBox.add(button_text);
+
+    button.anchor.set(0.5, 0.5);
+    button.width = 200;
+    button.height = 50;
+    button_text.anchor.set(0.5, 0.5);
+
+    button.onInputOver.add(function () {
+        button_text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+    }, this);
+
+    button.onInputOut.add(function () {
+        button_text.setShadow();
+    }, this);
+
+    return button;
 }
