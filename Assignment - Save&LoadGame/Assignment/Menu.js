@@ -131,5 +131,5 @@ function loadGame() {
         game.state.start('Stage1', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
     
     else 
-        game.state.start('Stage1', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
+        game.state.start('Stage2', true, true, game, true, file.playerPosX, file.playerPosY, file.life, file.score);
 }
