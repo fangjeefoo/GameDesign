@@ -362,10 +362,10 @@ function menuOption() {
     msgBox.add(instruction);
     msgBox.add(closeButton);
     msgBox.add(myButton(game.width / 2, game.height / 2 - 50, "Main Menu", function () {
-        game.state.start('Menu', true, true, [game]);
+        game.state.start('Menu', true, true, game);
     }, msgBox));
     msgBox.add(myButton(game.width / 2, game.height / 2, "Score Board", function () {
-        game.state.start('ScoreBoard', true, true, [game]);
+        game.state.start('ScoreBoard', true, true, game);
     }, msgBox));
     msgBox.add(myButton(game.width / 2, game.height / 2 + 50, "Restart", function () {
         game.state.restart(true, true, game, false, null, null, null, null);

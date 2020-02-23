@@ -7,4 +7,4 @@ game.state.add('Lose', lose);
 game.state.add('Win', win);
 game.state.add('ScoreBoard', scoreBoard)
 
-game.state.start('Menu', true, false, [game]);
+game.state.start('Menu', true, false, game);

@@ -5,7 +5,7 @@ var score = 0;
 var coor = 0;
 
 function init(data) {
-	game = data[0];
+	game = data;
 }
 
 function preload() {
@@ -60,7 +60,7 @@ function create() {
 	closeButton.y = msgBox.y;
 	closeButton.inputEnabled = true;
 	closeButton.events.onInputDown.add(function () {
-		game.state.start('Menu', true, true, [game]);
+		game.state.start('Menu', true, true, game);
 		msgBox.destroy();
 	}, this);
 }

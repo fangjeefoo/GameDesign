@@ -2,7 +2,7 @@
 var game;
 
 function init(data) {
-    game = data[0];
+    game = data;
 }
 
 function create() {
@@ -13,7 +13,7 @@ function create() {
     game.stage.backgroundColor = "#FFFFFF";
 
     createButton(300, 200, 'OK', function () {
-        game.state.start('ScoreBoard', true, true, [game]);
+        game.state.start('ScoreBoard', true, true, game);
     });
 }
 

@@ -10,7 +10,7 @@ var game;
 var close_text;
 
 function init(data) {
-    game = data[0];
+    game = data;
 }
 
 function preload() {
@@ -116,7 +116,7 @@ function create() {
     }, null);
 
     scoreButton = createButton(game.world.centerX, game.world.centerY + 105, "Score Board", function () {
-        game.state.start('ScoreBoard', true, true, [game]);
+        game.state.start('ScoreBoard', true, true, game);
     }, null);
 }
 
