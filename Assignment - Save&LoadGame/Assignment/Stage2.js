@@ -89,7 +89,7 @@ function create() {
 
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
-    map.setCollisionByExclusion([1, 2], true, 'BaseLayer');
+    map.setCollisionByExclusion([2], true, 'BaseLayer');
     map.setCollisionBetween(1, 1000, true, 'Traps');
     map.setCollisionBetween(1, 1000, true, 'hiddenBlock');
 
@@ -144,14 +144,14 @@ function create() {
     enemy.enableBody = true;
 
     for (var i = 2; i < 4; i++)
-        var enemies = enemy.create(i * 100, 165, 'mob'); //165, 300, 230, 550
+        var enemies = enemy.create(i * 100, 165, 'mob'); 
 
-    var enemies = enemy.create(2 * 20, 230, 'mob'); //165, 300, 230, 550
-    var enemies = enemy.create(3 * 100, 230, 'mob'); //165, 300, 230, 550
-    var enemies = enemy.create(2 * 100, 300, 'mob'); //165, 300, 230, 550
+    var enemies = enemy.create(2 * 20, 230, 'mob'); 
+    var enemies = enemy.create(3 * 100, 230, 'mob'); 
+    var enemies = enemy.create(2 * 100, 300, 'mob'); 
 
     for (var i = 2; i < 4; i++)
-        var enemies = enemy.create(i * 100, 550, 'mob'); //165, 300, 230, 550
+        var enemies = enemy.create(i * 100, 550, 'mob'); 
 
     enemy.setAll('body.gravity.y', 500);
     enemy.setAll('body.velocity.x', speed);
@@ -176,8 +176,9 @@ function update() {
     game.physics.arcade.collide(player, baseLayer);
     game.physics.arcade.collide(coins, baseLayer);
     game.physics.arcade.collide(enemy, baseLayer);
+    game.physics.arcade.collide(stars, baseLayer, disappear, null, this);
     game.physics.arcade.collide(enemy, hiddenBlock, checkBound, null, this);
-    game.physics.arcade.collide(player, hearts, collectHeart, null, this);
+    game.physics.arcade.collide(player, heart, collectHeart, null, this);
     game.physics.arcade.collide(player, trap, hurt, null, this);
     game.physics.arcade.collide(player, enemy, hurt2, null, this);
     game.physics.arcade.collide(stars, enemy, dead, null, this);
@@ -286,6 +287,7 @@ function win() {
 }
 
 function dead(stars, enemy) {
+    stars.kill();
 	enemy.destroy();
 	score += 15;
 }

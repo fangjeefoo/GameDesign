@@ -2,7 +2,7 @@
 
 var name = "TestPlayer";
 var score = 0;
-var coor = 0;
+var coor;
 
 function init(data) {
 	game = data;
@@ -16,6 +16,7 @@ function preload() {
 }
 
 function create() {
+    coor = 0;
     game.world.height = 300;
     game.world.width = 600;
 

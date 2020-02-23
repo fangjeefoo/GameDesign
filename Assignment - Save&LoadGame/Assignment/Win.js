@@ -1,4 +1,4 @@
-﻿var win = { create: create }
+﻿var win = {init: init, create: create};
 var game;
 
 function init(data) {

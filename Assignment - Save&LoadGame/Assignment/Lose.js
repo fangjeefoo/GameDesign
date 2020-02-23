@@ -1,7 +1,8 @@
-﻿var lose = {init: init, create: create }
+﻿var lose = { init: init, create: create };
 var game;
+var text;
 
-function init(data) {
+function init(data, text) {
     game = data;
 }
 
