@@ -79,7 +79,7 @@ function create() {
 
     map = game.add.tilemap("map");
     map.addTilesetImage('Assets');
-    map.setCollisionByExclusion([2], true, 'BaseLayer');
+    map.setCollisionByExclusion([2, 54, 76, 77, 78, 99, 100, 101, 122, 123, 124], true, 'BaseLayer');
     map.setCollisionBetween(0, 1000, true, 'Traps');
 
     baseLayer = map.createLayer('BaseLayer');
