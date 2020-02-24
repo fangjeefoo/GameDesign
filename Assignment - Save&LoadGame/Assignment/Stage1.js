@@ -212,7 +212,7 @@ function hurt(player, trap) {
         life--;
 
     if (life == 0)
-       game.state.start("Lose", true, true, game);
+        game.state.start("Result", true, true, game, "You Lose!");
 
    trapTimer = game.time.now + 750;
 }

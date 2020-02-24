@@ -1,13 +1,16 @@
-﻿var win = {init: init, create: create};
+﻿var result = { init: init, create: create };
 var game;
+var word;
 
-function init(data) {
+function init(data, t) {
     game = data;
+    word = t;
 }
 
 function create() {
+    console.log(word);
     var style = { font: "25px Arial", fill: "#000000", align: "center" };
-    var text = game.add.text(300, 150, "You Win!", style);
+    var text = game.add.text(300, 150, word, style);
 
     text.anchor.set(0.5, 0.5);
     game.stage.backgroundColor = "#FFFFFF";

@@ -35,7 +35,6 @@ var tempScore;
 var tempLife;
 var speed;
 var level;
-var pressed = 0;
 
 function init(data, file, playerPosX, playerPosY, life, score) {
     if (file) {
@@ -184,7 +183,7 @@ function update() {
     game.physics.arcade.collide(stars, enemy, dead, null, this);
     game.physics.arcade.collide(player, coins, collectCoin, null, this);
     game.physics.arcade.collide(player, chest, collectChest, null, this);
-    game.physics.arcade.collide(player, door, win, null, this);
+    game.physics.arcade.collide(player, door, win2, null, this);
 
     player.body.velocity.x = 0;
 
@@ -238,18 +237,11 @@ function update() {
     }
 
     if (menu.isDown)
-        menuOption();
+        menuOption2();
+        
 
-    if (pause.isDown) {
-        enableKey(false);
-        pressed++;
-        pause.reset(hard);
-        if (pressed % 2 == 0) {
-            enemy.setAll('body.enable', true);
-        } else {
-            enemy.setAll('body.enable', false);
-        }
-    }
+    if (pause.isDown) 
+        enableKey2(false);
 }
 
 function collectCoin(player, coin) {
@@ -266,7 +258,7 @@ function hurt2(player, enemy) {
         life--;
 
     if (life == 0) 
-        game.state.start("Lose", true, true, game);
+        game.state.start("Result", true, true, game, "You Lose!");
 
     trapTimer = game.time.now + 750;
 }
@@ -276,7 +268,7 @@ function hurt(player, trap) {
         life--;
 
     if (life == 0) 
-        game.state.start("Lose", true, true, game);     
+        game.state.start("Result", true, true, game, "You Lose!");     
     
     trapTimer = game.time.now + 750;
 }
@@ -286,8 +278,8 @@ function collectChest(player, chest) {
     score = score + 25;
 }
 
-function win() {
-    game.state.start('Win', true, true, game);
+function win2() {
+    game.state.start('Result', true, true, game, "You Win!");
 }
 
 function dead(stars, enemy) {
@@ -316,12 +308,11 @@ function fire() {
     }
 }
 
-function enableKey(isMenu) {
+function enableKey2(isMenu) {
     if (game.time.now > pressTimer) {
         pressTimer = game.time.now + 1000;
         if (!pauseBool) {
-            speed = 0;
-            enemy.setAll('body.velocity.x', speed);
+            enemy.setAll('body.enable', false);
             cursors.left.enabled = false;
             cursors.right.enabled = false;
             cursors.up.enabled = false;
@@ -330,8 +321,7 @@ function enableKey(isMenu) {
             pauseBool = true;
         }
         else {
-            speed = 50;
-            enemy.setAll('body.velocity.x', speed);
+            enemy.setAll('body.enable', true);
             cursors.left.enabled = true;
             cursors.right.enabled = true;
             cursors.up.enabled = true;
@@ -347,8 +337,8 @@ function collectHeart(player, hearts) {
     hearts.kill();
 }
 
-function menuOption() {
-    enableKey(true);
+function menuOption2() {
+    enableKey2(true);
 
     if (this.msgBox)
         this.msgBox.destroy();
@@ -392,7 +382,7 @@ function menuOption() {
 
     closeButton.inputEnabled = true;
     closeButton.events.onInputDown.add(function () {
-        enableKey(true);
+        enableKey2(true);
         msgBox.destroy();
     }, this);
     this.msgBox = msgBox;
